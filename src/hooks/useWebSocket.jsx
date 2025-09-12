@@ -5,6 +5,7 @@ export const useWebSocket = (url) => {
     const [connectionStatus, setConnectionStatus] = useState('Connecting...');
     const [isConnected, setIsConnected] = useState(false);
     const socketRef = useRef(null);
+     const [activeMessageId, setActiveMessageId] = useState(null);
 
     const connect = useCallback(() => {
         try {
@@ -87,6 +88,8 @@ export const useWebSocket = (url) => {
         isConnected,
         sendMessage,
         disconnect,
-        reconnect: connect
+        reconnect: connect, 
+        activeMessageId, 
+        setActiveMessageId
     };
 };
