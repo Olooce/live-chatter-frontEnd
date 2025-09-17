@@ -14,8 +14,13 @@ const availableEmojis = ["👍", "❤️", "😂", "🔥", "😢", "🎉", "👏
   return (
     <div
       className={`message ${isSystemMessage ? "system-message" : "user-message"}`}
-      onClick={onToggle}
-      style={{ cursor: "pointer" }}
+      onClick={isSystemMessage ? undefined : onToggle}
+      onKeyDown={isSystemMessage ? undefined : (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle(); }
+      }}
+      role={isSystemMessage ? undefined : "button"}
+      tabIndex={isSystemMessage ? -1 : 0}
+      style={{ cursor: isSystemMessage ? "default" : "pointer" }}
     >
       {isSystemMessage ? (
         <div className="system-content">
