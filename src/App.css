@@ -253,8 +253,9 @@ body {
 }
 .emoji-picker {
   position: absolute;
-  right: 0;
   left: 50%;
+  bottom: calc(100% + 8px); /* or: top: calc(100% + 8px); */
+  transform: translateX(-50%);
   z-index: 1000;
   display: flex;
   justify-content: center;
