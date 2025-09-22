@@ -20,6 +20,7 @@ function ChatApp() {
     } = useWebSocket("ws://localhost:8080/ws");
 
     const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,16 +39,13 @@ function ChatApp() {
     };
 
     const getMessageType = (message) => {
-
         const username = message.username?.toLowerCase();
         if (!username || username === 'system' || username === 'server') {
             return 'system';
         }
-
         if (message.username === user?.username) {
             return 'own';
         }
-
         return 'other';
     };
 
@@ -55,37 +53,45 @@ function ChatApp() {
         <div className="chat-app">
             <header className="chat-header">
                 <div className="header-content">
-                    <h1 className="app-title">
-                        <span className="chat-icon">💬</span>
-                        Chatter
-                    </h1>
-                    <div className="user-info">
-                        <span>Welcome, {user?.username}</span>
+                    <div className="header-left">
+                        <div className="app-brand">
+                            <div className="brand-icon">💬</div>
+                            <h1 className="app-title">Chatter</h1>
+                        </div>
+                        <div className="connection-status-wrapper">
+                            <ConnectionStatus
+                                status={connectionStatus}
+                                isConnected={isConnected}
+                                onReconnect={handleReconnect}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="header-right">
+                        <div className="user-welcome">
+                            Welcome, <span className="username">{user?.username}</span>
+                        </div>
                         <button onClick={logout} className="logout-btn">
+                            <span className="logout-icon">⎋</span>
                             Logout
                         </button>
                     </div>
-                    <ConnectionStatus
-                        status={connectionStatus}
-                        isConnected={isConnected}
-                        onReconnect={handleReconnect}
-                    />
                 </div>
             </header>
 
             <main className="chat-main">
-                <div className="messages-container">
+                <div className="messages-container" ref={messagesContainerRef}>
                     <div className="messages-list">
                         {messages.length === 0 ? (
                             <div className="empty-state">
                                 <div className="empty-icon">💭</div>
-                                <p>No messages yet. Start the conversation!</p>
+                                <h3>No messages yet</h3>
+                                <p>Start the conversation by sending a message below</p>
                             </div>
                         ) : (
                             <>
                                 {messages.map((message, index) => {
                                     const messageType = getMessageType(message);
-
                                     return (
                                         <Message
                                             key={`${message.id || index}-${message.timestamp || Date.now()}`}
@@ -109,10 +115,12 @@ function ChatApp() {
             </main>
 
             <footer className="chat-footer">
-                <ChatInput
-                    onSendMessage={handleSendMessage}
-                    isConnected={isConnected}
-                />
+                <div className="footer-content">
+                    <ChatInput
+                        onSendMessage={handleSendMessage}
+                        isConnected={isConnected}
+                    />
+                </div>
             </footer>
         </div>
     );
@@ -122,7 +130,12 @@ function App() {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <div className="loading">Loading...</div>;
+        return (
+            <div className="loading-screen">
+                <div className="loading-spinner"></div>
+                <p>Loading Chatter...</p>
+            </div>
+        );
     }
 
     return user ? <ChatApp /> : <LoginForm />;
