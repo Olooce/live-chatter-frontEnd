@@ -23,7 +23,6 @@ const Message = ({ message, isActive, onToggle, variant = "other", currentUser }
 
     const isSystemMessage = messageType === 'system';
     const isOwnMessage = messageType === 'own';
-    const isOtherMessage = messageType === 'other';
 
     const handleAddReaction = (emoji) => {
         setReaction(emoji);
@@ -60,15 +59,23 @@ const Message = ({ message, isActive, onToggle, variant = "other", currentUser }
                     <span className="content">{message.content}</span>
                 </div>
             ) : (
-                <div className="user-content">
-                    {/* Show sender name for other users' messages, not for own messages */}
-                    {isOtherMessage && message.username && (
-                        <span className="sender">{message.username}:</span>
+                <div className="user-message-bubble">
+                    {!isOwnMessage && message.username && (
+                        <div className="sender">{message.username}</div>
                     )}
 
-                    <span className="content">{message.content}</span>
+                    <div className="content">{message.content}</div>
 
-                    {/* Emoji picker - only show for user messages when active */}
+                    {message.timestamp && (
+                        <div className={`timestamp ${messageType}-timestamp`}>
+                            {new Date(message.timestamp).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}
+                        </div>
+                    )}
+
+                    {/* Emoji picker */}
                     {isActive && !isSystemMessage && (
                         <div className="emoji-picker">
                             {availableEmojis.map((emoji) => (
@@ -97,14 +104,7 @@ const Message = ({ message, isActive, onToggle, variant = "other", currentUser }
                 </div>
             )}
 
-            {/* Timestamp - show for all message types but style differently */}
-            {message.timestamp && (
-                <span className={`timestamp ${messageType}-timestamp`}>
-                    {new Date(message.timestamp).toLocaleTimeString()}
-                </span>
-            )}
-
-            {/* Reactions - only show for user messages */}
+            {/* Reactions */}
             {reaction && !isSystemMessage && (
                 <div className="reactions">
                     <span className="reaction-emoji">{reaction}</span>
