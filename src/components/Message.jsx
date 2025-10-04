@@ -1,36 +1,32 @@
 import { useState } from "react";
 
-const Message = ({ message, isActive, onToggle, variant = "other", currentUser }) => {
-    const [reaction, setReaction] = useState(null);
+import "../assets/styles/Message.css";
+
+const Message = ({ message, isActive, onToggle, onAddReaction, currentUser }) => {
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const availableEmojis = ["👍", "❤️", "😂", "🔥", "😢", "🎉", "👏", "😮", "🤔", "😎", "🙌", "💯", "🥳", "🤩", "😴"];
 
     const messageType = (() => {
-        if (variant && ['system', 'own', 'other'].includes(variant)) {
-            return variant;
-        }
-
         const username = message.username?.toLowerCase();
+        
         if (!username || username === 'system' || username === 'server') {
             return 'system';
         }
-
-        if (message.username === currentUser) {
-            return 'own';
-        }
-
-        return 'other';
+        
+        return message.username === currentUser ? 'own' : 'other';
     })();
 
     const isSystemMessage = messageType === 'system';
     const isOwnMessage = messageType === 'own';
 
     const handleAddReaction = (emoji) => {
-        setReaction(emoji);
-        onToggle();
+        onAddReaction(message.id, emoji);
+        setShowEmojiPicker(false);
     };
 
     const handleMessageClick = () => {
         if (!isSystemMessage) {
+            setShowEmojiPicker(!showEmojiPicker);
             onToggle();
         }
     };
@@ -75,39 +71,43 @@ const Message = ({ message, isActive, onToggle, variant = "other", currentUser }
                         </div>
                     )}
 
-                    {/* Emoji picker */}
-                    {isActive && !isSystemMessage && (
-                        <div className="emoji-picker">
-                            {availableEmojis.map((emoji) => (
-                                <span
-                                    key={emoji}
-                                    className="emoji-option"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddReaction(emoji);
-                                    }}
-                                    role="button"
-                                    tabIndex={0}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter" || e.key === " ") {
-                                            e.preventDefault();
+                    {showEmojiPicker && !isSystemMessage && (
+                        <div className="emoji-picker" onClick={(e) => e.stopPropagation()}>
+                            <div className="emoji-picker-content">
+                                {availableEmojis.map((emoji) => (
+                                    <span
+                                        key={emoji}
+                                        className="emoji-option"
+                                        onClick={(e) => {
                                             e.stopPropagation();
                                             handleAddReaction(emoji);
-                                        }
-                                    }}
-                                >
-                                    {emoji}
-                                </span>
-                            ))}
+                                        }}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" || e.key === " ") {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleAddReaction(emoji);
+                                            }
+                                        }}
+                                    >
+                                        {emoji}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
             )}
 
-            {/* Reactions */}
-            {reaction && !isSystemMessage && (
+            {message.reactions && message.reactions.length > 0 && !isSystemMessage && (
                 <div className="reactions">
-                    <span className="reaction-emoji">{reaction}</span>
+                    {message.reactions.map((reaction, index) => (
+                        <span key={`${reaction.emoji}-${index}`} className="reaction">
+                            <span className="reaction-emoji">{reaction.emoji}</span>
+                        </span>
+                    ))}
                 </div>
             )}
         </div>
