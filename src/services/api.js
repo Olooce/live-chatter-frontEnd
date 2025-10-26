@@ -1,9 +1,19 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1';
+const API_BASE_URL =  (import.meta.env.MODE === "development" &&
+        import.meta.env.VITE_API_DEV_BASE_URL) ||
+    (typeof window !== "undefined"
+        ? `${window.location.protocol}//${window.location.host}/api`
+        : "/api");
 
 const api = axios.create({
     baseURL: API_BASE_URL,
+    headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    },
+    // withCredentials: true,
+    timeout: 5000,
 });
 
 api.interceptors.request.use((config) => {
