@@ -109,70 +109,6 @@ body {
     background-clip: text;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.user-welcome {
-    color: var(--neutral-600);
-    font-size: 0.9rem;
-}
-
-.username {
-    font-weight: 600;
-    color: var(--neutral-800);
-}
-
-.logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: var(--neutral-100);
-    color: var(--neutral-700);
-    border: 1px solid var(--neutral-200);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.logout-btn:hover {
-    background: var(--neutral-200);
-    border-color: var(--neutral-300);
-    transform: translateY(-1px);
-}
-
-.logout-icon {
-    font-size: 0.875rem;
-}
-
-.connection-status {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--neutral-50);
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--neutral-200);
-}
-
-.status-info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.status-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
 @keyframes pulse {
     0%, 100% {
         opacity: 1;
@@ -180,15 +116,6 @@ body {
     50% {
         opacity: 0.5;
     }
-}
-
-.chat-main {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    background: var(--neutral-50);
-    position: relative;
 }
 
 .messages-container {
@@ -223,7 +150,6 @@ body {
 .messages-list::-webkit-scrollbar-thumb:hover {
     background: var(--neutral-400);
 }
-
 
 .empty-state {
     display: flex;
@@ -360,28 +286,6 @@ body {
 
 .message.other .timestamp {
     color: var(--neutral-500);
-}
-
-
-.chat-input-form {
-    width: 100%;
-}
-
-.input-container {
-    display: flex;
-    gap: 0.75rem;
-    /*align-items: flex-end;*/
-    background: white;
-    border-radius: var(--border-radius-lg);
-    padding: 0.75rem;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--neutral-200);
-    transition: all 0.2s ease;
-}
-
-.input-container:focus-within {
-    border-color: var(--primary-400);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .message-input {

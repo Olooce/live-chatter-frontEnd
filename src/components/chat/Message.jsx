@@ -12,7 +12,7 @@ const Message = ({message, isActive, onToggle, onAddReaction, currentUser}) => {
             return 'system';
         }
 
-        return message.username === currentUser ? 'own' : 'other';
+        return message.username === currentUser.toLowerCase() ? 'own' : 'other';
     })();
 
     const isSystemMessage = messageType === 'system';

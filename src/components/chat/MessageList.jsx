@@ -12,7 +12,7 @@ const MessageList = ({
                          loading
                      }) => {
     const messagesEndRef = useRef(null);
-    const messagesContainerRef = useRef(null);
+    const messagesListRef = useRef(null);
 
     const scrollToBottom = (behavior = 'smooth') => {
         messagesEndRef.current?.scrollIntoView({
@@ -26,7 +26,7 @@ const MessageList = ({
     }, []);
 
     useEffect(() => {
-        const el = messagesContainerRef.current;
+        const el = messagesListRef.current
         if (!el) return;
 
         const threshold = 150;
@@ -51,8 +51,8 @@ const MessageList = ({
     }
 
     return (
-        <div className="messages-container" ref={messagesContainerRef}>
-            <div className="messages-list">
+        <div className="messages-container">
+            <div className="messages-list" ref={messagesListRef}>
                 {messages.length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-icon">💬</div>
