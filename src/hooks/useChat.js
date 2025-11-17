@@ -13,7 +13,13 @@ const getWebSocketUrl = () => {
         return `${url.protocol === 'https:' ? 'wss' : 'ws'}://${url.host}/ws`;
     } catch (err) {
         console.error('Failed to parse API_BASE_URL for WS:', err);
-        return '/ws';
+        // Fallback to window.location-based URL in browser
+        if (typeof window !== 'undefined') {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            return `${protocol}//${window.location.host}/ws`;
+        }
+        // SSR fallback - won't work but at least won't break parsing
+        return 'ws://localhost:8080/ws';
     }
 };
 
