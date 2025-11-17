@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import '../../assets/styles/ChatInput.css';
 
-const ChatInput = ({ onSendMessage, isConnected }) => {
+const ChatInput = ({onSendMessage, isConnected}) => {
     const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
@@ -23,33 +24,38 @@ const ChatInput = ({ onSendMessage, isConnected }) => {
     return (
         <form onSubmit={handleSubmit} className="chat-input-form">
             <div className="input-container">
-                <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={isConnected ? "Type your message..." : "Not connected"}
-                    disabled={!isConnected}
-                    className="message-input"
-                    autoComplete="off"
-                />
-                <button
-                    type="submit"
-                    disabled={!message.trim() || !isConnected}
-                    className="send-button"
-                >
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                    >
-                        <path d="m22 2-7 20-4-9-9-4Z"/>
-                        <path d="M22 2 11 13"/>
-                    </svg>
-                </button>
+                <div className="input-wrapper">
+                    <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={isConnected ? "Type your message..." : "Connecting..."}
+                        disabled={!isConnected}
+                        className="message-input"
+                        autoComplete="off"
+                    />
+
+                    <div className="input-actions">
+                        {/*<span className="char-count">*/}
+                        {/*    {message.length}/500*/}
+                        {/*</span>*/}
+                        <button
+                            type="submit"
+                            disabled={!message.trim() || !isConnected}
+                            className="send-button"
+                            aria-label="Send message"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     );

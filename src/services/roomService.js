@@ -29,7 +29,7 @@ export const roomService = {
         api.get(`/chat/rooms/${roomId}/members`).then(res => res.data),
 
     updateMemberRole: (roomId, userId, role) =>
-        api.put(`/chat/rooms/${roomId}/members/${userId}`, { role }),
+        api.put(`/chat/rooms/${roomId}/members/${userId}`, {role}),
 
     removeMember: (roomId, userId) =>
         api.delete(`/chat/rooms/${roomId}/members/${userId}`),

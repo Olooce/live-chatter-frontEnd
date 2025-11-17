@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { roomService } from '../services/roomService';
+import {useCallback, useEffect, useState} from 'react';
+import {roomService} from '../services/roomService';
 
 export const useRooms = () => {
     const [rooms, setRooms] = useState([]);
@@ -7,7 +7,7 @@ export const useRooms = () => {
     const [currentRoom, setCurrentRoom] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+
     const loadRooms = useCallback(async () => {
         setLoading(true);
         setError(null);

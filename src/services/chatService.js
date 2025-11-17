@@ -12,10 +12,10 @@ export const chatService = {
     },
 
     searchMessages: (query, roomId = null, limit = 20) => {
-        const params = { q: query, limit };
+        const params = {q: query, limit};
         if (roomId) params.room_id = roomId;
 
-        return api.get('/chat/search', { params })
+        return api.get('/chat/search', {params})
             .then(res => res.data);
     },
 
@@ -23,13 +23,13 @@ export const chatService = {
         api.get('/chat/users/online').then(res => res.data),
 
     sendTypingIndicator: (roomId, isTyping) =>
-        api.post('/chat/typing', { room_id: roomId, typing: isTyping }),
+        api.post('/chat/typing', {room_id: roomId, typing: isTyping}),
 
     addReaction: (messageId, emoji) =>
-        api.post(`/chat/messages/${messageId}/reactions`, { emoji }),
+        api.post(`/chat/messages/${messageId}/reactions`, {emoji}),
 
     removeReaction: (messageId, emoji) =>
-        api.delete(`/chat/messages/${messageId}/reactions`, { data: { emoji } }),
+        api.delete(`/chat/messages/${messageId}/reactions`, {data: {emoji}}),
 };
 
 export default chatService;

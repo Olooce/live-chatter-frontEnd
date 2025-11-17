@@ -1,12 +1,11 @@
 import React from 'react';
-import { AuthProvider } from './contexts/AuthContext';
+import {AuthProvider, useAuth} from './contexts/AuthContext';
 import ChatApp from './pages/ChatApp';
 import LoginPage from './pages/LoginPage';
-import { useAuth } from './contexts/AuthContext';
 import './App.css';
 
 function AppContent() {
-    const { user, loading } = useAuth();
+    const {user, loading} = useAuth();
 
     if (loading) {
         return (
@@ -17,13 +16,13 @@ function AppContent() {
         );
     }
 
-    return user ? <ChatApp /> : <LoginPage />;
+    return user ? <ChatApp/> : <LoginPage/>;
 }
 
 function App() {
     return (
         <AuthProvider>
-            <AppContent />
+            <AppContent/>
         </AuthProvider>
     );
 }

@@ -8,7 +8,7 @@ export const authService = {
         api.post('/auth/login', credentials).then(res => res.data),
 
     refresh: (refreshToken) =>
-        api.post('/auth/refresh', { refreshToken }).then(res => res.data),
+        api.post('/auth/refresh', {refreshToken}).then(res => res.data),
 
     logout: () =>
         api.post('/auth/logout').then(res => res.data),
@@ -20,7 +20,7 @@ export const authService = {
         api.put('/auth/profile', userData).then(res => res.data),
 
     changePassword: (currentPassword, newPassword) =>
-        api.put('/auth/password', { currentPassword, newPassword }),
+        api.put('/auth/password', {currentPassword, newPassword}),
 };
 
 export default authService;

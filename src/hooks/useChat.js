@@ -1,7 +1,7 @@
-import {useState, useCallback, useEffect} from 'react';
-import { chatService } from '../services/chatService';
+import {useCallback, useEffect, useState} from 'react';
+import {chatService} from '../services/chatService';
 import useWebSocket from './useWebSocket';
-import { API_BASE_URL } from '../services/api';
+import {API_BASE_URL} from '../services/api';
 
 const getWebSocketUrl = () => {
     if (import.meta.env.MODE === 'development') {
@@ -45,7 +45,7 @@ const useChat = (roomId) => {
     const loadMessages = useCallback(async (params = {}) => {
         if (!roomId) return;
         console.log('Loading messages for room:', roomId);
-        
+
         setLoading(true);
         setError(null);
         try {
@@ -147,7 +147,7 @@ const useChat = (roomId) => {
             await chatService.addReaction(messageId, emoji);
             setMessages(prev => prev.map(msg =>
                 msg.id === messageId
-                    ? { ...msg, reactions: [...(msg.reactions || []), { emoji, userId: 'current' }] }
+                    ? {...msg, reactions: [...(msg.reactions || []), {emoji, userId: 'current'}]}
                     : msg
             ));
         } catch (err) {
