@@ -43,7 +43,7 @@ const MessageList = ({
                     <>
                         {messages.map((message, index) => (
                             <Message
-                                key={`${message.id || index}-${message.timestamp || Date.now()}`}
+                                key={`${message.id || index}-${message.created_at || Date.now()}`}
                                 message={message}
                                 isActive={activeMessageId === index}
                                 onToggle={() => onToggleMessage(index)}

@@ -1,6 +1,23 @@
 import {useState, useCallback, useEffect} from 'react';
 import { chatService } from '../services/chatService';
 import useWebSocket from './useWebSocket';
+import { API_BASE_URL } from '../services/api';
+
+const getWebSocketUrl = () => {
+    if (import.meta.env.MODE === 'development') {
+        return 'ws://localhost:8080/ws';
+    }
+
+    try {
+        const url = new URL(API_BASE_URL);
+        return `${url.protocol === 'https:' ? 'wss' : 'ws'}://${url.host}/ws`;
+    } catch (err) {
+        console.error('Failed to parse API_BASE_URL for WS:', err);
+        return '/ws';
+    }
+};
+
+const WS_URL = getWebSocketUrl();
 
 const useChat = (roomId) => {
     const [messages, setMessages] = useState([]);
@@ -16,7 +33,8 @@ const useChat = (roomId) => {
         reconnect,
         activeMessageId,
         setActiveMessageId,
-    } = useWebSocket('ws://localhost:8080/ws');
+    } = useWebSocket(WS_URL);
+
 
     const loadMessages = useCallback(async (params = {}) => {
         if (!roomId) return;
