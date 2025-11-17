@@ -62,14 +62,18 @@ const Message = ({ message, isActive, onToggle, onAddReaction, currentUser }) =>
 
                     <div className="content">{message.content}</div>
 
-                    {message.timestamp && (
+                    {message.created_at && (
                         <div className={`timestamp ${messageType}-timestamp`}>
-                            {new Date(message.timestamp).toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit'
+                            {new Date(message.created_at).toLocaleString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: false,
+                                day: "2-digit",
+                                month: "short"
                             })}
                         </div>
                     )}
+
 
                     {showEmojiPicker && !isSystemMessage && (
                         <div className="emoji-picker" onClick={(e) => e.stopPropagation()}>

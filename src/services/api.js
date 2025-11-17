@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL =  (import.meta.env.MODE === "development" &&
+export const API_BASE_URL = (import.meta.env.MODE === "development" &&
         import.meta.env.VITE_API_DEV_BASE_URL) ||
     (typeof window !== "undefined"
         ? `${window.location.protocol}//${window.location.host}/api`
@@ -11,6 +11,7 @@ const api = axios.create({
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        'ngrok-skip-browser-warning': 'true'
     },
     // withCredentials: true,
     timeout: 5000,
