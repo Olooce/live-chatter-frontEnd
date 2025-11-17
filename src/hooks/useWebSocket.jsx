@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback, useRef } from 'react';
+import {useCallback, useEffect, useReducer, useRef} from 'react';
 
 const initialState = {
     messages: [],
@@ -10,19 +10,19 @@ const initialState = {
 const wsReducer = (state, action) => {
     switch (action.type) {
         case 'CONNECTING':
-            return { ...state, connectionStatus: 'Connecting', isConnected: false };
+            return {...state, connectionStatus: 'Connecting', isConnected: false};
         case 'CONNECTED':
-            return { ...state, connectionStatus: 'Connected', isConnected: true };
+            return {...state, connectionStatus: 'Connected', isConnected: true};
         case 'DISCONNECTED':
-            return { ...state, connectionStatus: 'Disconnected', isConnected: false };
+            return {...state, connectionStatus: 'Disconnected', isConnected: false};
         case 'ERROR':
-            return { ...state, connectionStatus: `Error: ${action.payload}`, isConnected: false };
+            return {...state, connectionStatus: `Error: ${action.payload}`, isConnected: false};
         case 'MESSAGE_RECEIVED':
-            return { ...state, messages: [...state.messages, action.payload] };
+            return {...state, messages: [...state.messages, action.payload]};
         case 'SET_ACTIVE_MESSAGE':
-            return { ...state, activeMessageId: action.payload };
+            return {...state, activeMessageId: action.payload};
         case 'CLEAR_MESSAGES':
-            return { ...state, messages: [] };
+            return {...state, messages: []};
         default:
             return state;
     }
@@ -61,7 +61,7 @@ const useWebSocket = (url) => {
             return;
         }
 
-               const now = Date.now();
+        const now = Date.now();
         if (now - lastConnectTimeRef.current < 2000) {
             console.log('Too soon to reconnect, skipping.');
             return;
@@ -70,7 +70,7 @@ const useWebSocket = (url) => {
         cleanup();
 
         console.log('Initiating WebSocket connection...');
-        dispatch({ type: 'CONNECTING' });
+        dispatch({type: 'CONNECTING'});
         lastConnectTimeRef.current = now;
 
         const token = localStorage.getItem('accessToken');
@@ -81,13 +81,13 @@ const useWebSocket = (url) => {
 
             ws.onopen = () => {
                 console.log('WebSocket connected');
-                dispatch({ type: 'CONNECTED' });
+                dispatch({type: 'CONNECTED'});
                 reconnectAttemptRef.current = 0;
             };
 
             ws.onclose = (event) => {
                 console.log('WebSocket closed:', event.code);
-                dispatch({ type: 'DISCONNECTED' });
+                dispatch({type: 'DISCONNECTED'});
 
                 if (shouldReconnectRef.current && event.code !== 1000) {
                     const backoff = Math.min(1000 * Math.pow(2, reconnectAttemptRef.current), 30000);
@@ -102,14 +102,14 @@ const useWebSocket = (url) => {
 
             ws.onerror = (error) => {
                 console.error('WebSocket error:', error);
-                dispatch({ type: 'ERROR', payload: 'Connection failed' });
+                dispatch({type: 'ERROR', payload: 'Connection failed'});
             };
 
             ws.onmessage = (event) => {
                 try {
                     const msg = JSON.parse(event.data);
                     console.log('Received message:', msg);
-                    dispatch({ type: 'MESSAGE_RECEIVED', payload: msg });
+                    dispatch({type: 'MESSAGE_RECEIVED', payload: msg});
                 } catch (e) {
                     console.error('Invalid WS message:', e);
                 }
@@ -118,7 +118,7 @@ const useWebSocket = (url) => {
             wsRef.current = ws;
         } catch (error) {
             console.error('Failed to create WebSocket:', error);
-            dispatch({ type: 'ERROR', payload: 'Failed to connect' });
+            dispatch({type: 'ERROR', payload: 'Failed to connect'});
         }
     }, [url, cleanup]);
 
@@ -136,7 +136,7 @@ const useWebSocket = (url) => {
     const formatMessage = (msg, type = 'chat_message', roomId = '') => {
         if (typeof msg === 'object' && msg !== null) return msg;
         if (typeof msg === 'string') {
-            return { type, content: msg, room_id: roomId };
+            return {type, content: msg, room_id: roomId};
         }
         throw new Error('Invalid message format');
     };
@@ -162,7 +162,7 @@ const useWebSocket = (url) => {
     }, [connect]);
 
     const clearMessages = useCallback(() => {
-        dispatch({ type: 'CLEAR_MESSAGES' });
+        dispatch({type: 'CLEAR_MESSAGES'});
     }, []);
 
     return {
@@ -173,7 +173,7 @@ const useWebSocket = (url) => {
         reconnect,
         clearMessages,
         activeMessageId: state.activeMessageId,
-        setActiveMessageId: (id) => dispatch({ type: 'SET_ACTIVE_MESSAGE', payload: id }),
+        setActiveMessageId: (id) => dispatch({type: 'SET_ACTIVE_MESSAGE', payload: id}),
     };
 };
 

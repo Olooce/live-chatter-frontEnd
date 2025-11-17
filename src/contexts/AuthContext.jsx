@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {authAPI} from '../services/api';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -12,7 +12,7 @@ export const useAuth = () => {
     return context;
 };
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const { access, refresh, user } = await authAPI.login(credentials);
+            const {access, refresh, user} = await authAPI.login(credentials);
 
 
             if (!access || typeof access !== "string") {
@@ -54,7 +54,6 @@ export const AuthProvider = ({ children }) => {
             throw error;
         }
     };
-
 
 
     const register = async (userData) => {
