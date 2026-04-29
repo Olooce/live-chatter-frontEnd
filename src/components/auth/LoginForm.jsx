@@ -150,7 +150,7 @@ const LoginForm = () => {
                     />
                     {!isLogin && (
                         <div className="password-hint">
-                            Password must be at least 6 characters long
+                            Password must be at least 8 characters long
                         </div>
                     )}
                 </div>

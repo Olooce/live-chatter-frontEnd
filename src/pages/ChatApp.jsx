@@ -24,6 +24,7 @@ function ChatApp() {
     } = useRooms();
 
     const {
+        loadOnlineUsers,
         messages,
         onlineUsers,
         connectionStatus,
@@ -117,6 +118,25 @@ function ChatApp() {
             });
         }
     }, [currentRoom, currentRoom?.id, loadMessages]);
+
+   //  useEffect(() => {
+   //      console.log('Online users effect running');
+   //      console.log('loadOnlineUsers function:', loadOnlineUsers);
+   //
+   //      loadOnlineUsers();
+   //
+   //      const interval = setInterval(() => {
+   //          console.log('Interval tick - calling loadOnlineUsers');
+   //          loadOnlineUsers();
+   //      }, 1000);
+   //
+   //      return () => {
+   //          console.log('Cleaning up online users interval');
+   //          clearInterval(interval);
+   //      };
+   //  }, [loadOnlineUsers]);
+   //
+   // console.log(onlineUsers);
 
     return (
         <div className="chat-app">

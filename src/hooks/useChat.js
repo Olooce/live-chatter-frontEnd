@@ -107,12 +107,16 @@ const useChat = (roomId) => {
     }, [roomId]);
 
     const loadOnlineUsers = useCallback(async () => {
+        console.log('loadOnlineUsers called');
         setLoading(true);
         setError(null);
         try {
+            console.log('Fetching online users...');
             const response = await chatService.getOnlineUsers();
+            console.log('Online users response:', response);
             setOnlineUsers(response.users || []);
         } catch (err) {
+            console.error('Error loading online users:', err);
             setError(err.response?.data?.error || 'Failed to load online users');
         } finally {
             setLoading(false);

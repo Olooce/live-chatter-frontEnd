@@ -4,6 +4,7 @@ import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
@@ -36,7 +37,7 @@ export const AuthProvider = ({children}) => {
 
     const login = async (credentials) => {
         try {
-            const {access, refresh, user} = await authAPI.login(credentials);
+            const {access, refresh} = await authAPI.login(credentials);
 
 
             if (!access || typeof access !== "string") {
@@ -65,9 +66,11 @@ export const AuthProvider = ({children}) => {
     };
 
     const logout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        setUser(null);
+        authAPI.logout().then(() => {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            setUser(null);
+        })
     };
 
     const value = {

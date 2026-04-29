@@ -1,4 +1,4 @@
-import api from './api';
+import api, {chatAPI} from './api';
 
 export const chatService = {
     getRoomMessages: (roomId, params = {}) => {
@@ -20,7 +20,7 @@ export const chatService = {
     },
 
     getOnlineUsers: () =>
-        api.get('/chat/users/online').then(res => res.data),
+        chatAPI.getOnlineUsers().then(res => res.data),
 
     sendTypingIndicator: (roomId, isTyping) =>
         api.post('/chat/typing', {room_id: roomId, typing: isTyping}),

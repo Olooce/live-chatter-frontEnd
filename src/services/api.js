@@ -63,6 +63,7 @@ export const authAPI = {
     register: (userData) => api.post('/auth/register', userData).then(res => res.data),
     login: (credentials) => api.post('/auth/login', credentials).then(res => res.data),
     refresh: (refreshToken) => api.post('/auth/refresh', {refreshToken}).then(res => res.data),
+    logout: () => api.post('/auth/logout').then(res => res.data),
 };
 
 export const chatAPI = {
